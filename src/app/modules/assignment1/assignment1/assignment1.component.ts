@@ -65,7 +65,6 @@ export class Assignment1Component implements OnInit {
   public validateCookie() {
     this.cookieValue = this.cookieService.get('users');
     let tempCookieValue;
-    console.log(this.cookieValue)
 
     if(this.cookieValue) {
       tempCookieValue = JSON.parse(this.cookieValue)

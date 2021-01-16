@@ -42,7 +42,6 @@ export class Assignment2Component implements OnInit {
       this.outputJSON = tempData
 
       this.isShowViewer = true
-      console.log(this.outputJSON)
     }
   }
 
