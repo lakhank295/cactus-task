@@ -2,6 +2,13 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.0.
 
+## NPM Install
+1) ngx-cookie-service => For Cookie 
+2) ngx-json-viewer => For JSON Viewer
+3) ngx-pagination => For Client Side Pagination
+
+`npm install` to install dev dependencies 
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.

@@ -1,0 +1,85 @@
+<ng-container *ngIf="allPosts">
+  <div
+    class="card mt-2 mb-2"
+    *ngFor="
+      let post of allPosts | paginate: { itemsPerPage: 10, currentPage: p }
+    "
+  >
+    <div class="card-header">
+      {{ post.created_at | date: "dd MMMM , yyyy" }}
+    </div>
+    <div class="card-body">
+      <h4 class="card-title">
+        {{ post.title }}
+      </h4>
+
+      <h5 class="card-text">
+        <app-read-more
+          [content]="post.body"
+          [limit]="120"
+          [completeWords]="true"
+          (isReadMore)="post.isReadMore = $event; getPostWiseComments(post)"
+        >
+        </app-read-more>
+      </h5>
+
+      <div *ngIf="post.isReadMore">
+        <div class="d-flex justify-content-between mb-2 mt-2">
+          <div class="d-flex align-items-center">
+            <h3 *ngIf="post.isReadMore && allComments.length > 0" class="mb-0">
+              Comments:
+            </h3>
+          </div>
+          <div>
+            <button class="btn btn-primary btn-sm" *ngIf="isUserExist" (click)="post.isCreateUser = true">Add User</button>
+          </div>
+        </div>
+        <ng-container *ngIf="post.isCreateUser">
+          <form [formGroup]="userForm" (ngSubmit)="onSubmit(); post.isCreateUser = false">
+            <div class="form-row mb-2">
+              <div class="col">
+                <input type="email" class="form-control" formControlName = "email" placeholder="Enter E-Mail ID" required email 
+                >
+              </div>
+              <div class="col">
+                <input type="text" class="form-control" formControlName = "name" placeholder="Enter Name" required>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-sm float-right mb-2" [disabled]="userForm.invalid">Create</button>
+          </form>
+        </ng-container>
+        <ng-container *ngIf="post.isCreateUser">
+          <br><br><br>
+        </ng-container>
+
+        <ng-container *ngIf="!isUserExist">
+          <div class="form-group">
+            <textarea class="form-control" rows="2" placeholder="Enter Comment" [(ngModel)]="comment"></textarea>
+  
+            <button class="btn btn-primary btn-sm mt-1 mb-2 float-right" (click)="addComment()">Add Comment</button>
+          </div>
+          <br><br><br>
+        </ng-container>
+
+        <div class="card mt-2 mb-2" *ngFor="let comment of allComments">
+          <div class="card-header">
+            <span class="float-left">
+              {{ comment.name }} ({{ comment.email }})
+            </span>
+            <span class="float-right">
+              {{ post.created_at | date: "dd MMMM , yyyy" }}
+            </span>
+          </div>
+
+          <div class="card-body">
+            <h5 class="card-text">
+              {{ comment.body }}
+            </h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+</ng-container>
